@@ -31,6 +31,7 @@ class Event extends Model
     const string RELATION_TRAINER = 'trainer';
 
     protected $fillable = [
+        'trainer_id',
         'title',
         'description',
         'type',
