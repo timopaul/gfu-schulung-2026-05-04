@@ -13,6 +13,22 @@
             </div>
 
             <div>
+                <label class="block text-sm font-medium">Beschreibung</label>
+                <textarea wire:model="description" class="w-full border p-2 rounded-lg mt-1"></textarea>
+                @error('description') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Typ</label>
+                <select wire:model="type" class="w-full border p-2 rounded-lg mt-1">
+                    <option value="">Wähle Typ...</option>
+                    @foreach(\App\Enums\EventType::cases() as $eventType)
+                        <option value="{{ $eventType->value }}">{{ $eventType->label() }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
                 <label class="block text-sm font-medium">Trainer</label>
                 <select wire:model="trainer_id" class="w-full border p-2 rounded-lg mt-1">
                     <option value="">Wähle Trainer...</option>
@@ -21,6 +37,18 @@
                     @endforeach
                 </select>
                 @error('trainer_id') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Startdatum</label>
+                <input type="date" id="start_date" wire:model="start_date" class="w-full border p-2 rounded-lg mt-1">
+                @error('start_date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium">Enddatum</label>
+                <input type="date" id="end_date" wire:model="end_date" class="w-full border p-2 rounded-lg mt-1">
+                @error('end_date') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>

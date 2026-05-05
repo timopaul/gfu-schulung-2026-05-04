@@ -2,8 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Enums\EventType;
 use App\Models\Event;
 use App\Models\Trainer;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -21,12 +25,20 @@ class EventManager extends Component
     public string $description = '';
     public string $location = '';
     public $trainer_id;
+    public $start_date;
+    public $end_date;
+    public $type;
 
     protected $rules = [
-        'title' => 'required|min:5',
-        'description' => 'required',
-        'location' => 'required',
-        'trainer_id' => 'required|exists:trainers,id',
+        'title' => [
+            'required',
+            'min:5',
+        ],
+        'description' => ['required'],
+        'location' => ['required'],
+        'trainer_id' => ['required', 'exists:trainers,id'],
+        'start_date' => ['required', 'date'],
+        'end_date' => ['required', 'date', 'after_or_equal:start_date'],
     ];
 
     public function edit(int $id)
@@ -37,6 +49,9 @@ class EventManager extends Component
         $this->description = $event->description;
         $this->location = $event->location;
         $this->trainer_id = $event->trainer_id;
+        $this->start_date = $event->start_date->format('Y-m-d');
+        $this->end_date = $event->end_date->format('Y-m-d');
+        $this->type = $event->type->value;
         $this->isEditing = true;
     }
 

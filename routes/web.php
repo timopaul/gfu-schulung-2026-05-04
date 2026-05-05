@@ -8,4 +8,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/events', EventManager::class);
+Route::get('/livewire', EventManager::class);
+
+Route::get('/events', [EventController::class, 'index']);
