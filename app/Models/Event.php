@@ -24,6 +24,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read Trainer|null $trainer
  *
  * @method static Builder<Event>|self upcoming()
+ * @method static Builder<Event>|self fromTrainer(Trainer $trainer)
  */
 class Event extends Model
 {
