@@ -37,10 +37,10 @@ class EventController extends Controller
         $redirection = redirect()->route('events.index');
 
         if ($event->save()) {
-            return $redirection->with('success', 'Event created successfully.');
+            return $redirection->with('success', __('Event created successfully.', ['event' => $event]));
         }
 
-        return $redirection->with('error', 'Unable to create event.');
+        return $redirection->with('error', __('Unable to create event.', ['event' => $event]));
     }
 
     public function edit(Event $event): View
@@ -67,10 +67,10 @@ class EventController extends Controller
         $redirection = redirect()->route('events.index');
 
         if ($event->save()) {
-            return $redirection->with('success', 'Event updated successfully.');
+            return $redirection->with('success', __('Event ":event" updated successfully.', ['event' => $event]));
         }
 
-        return $redirection->with('error', 'Unable to update event.');
+        return $redirection->with('error', __('Unable to update event ":event".', ['event' => $event]));
     }
 
     public function remove(Event $event): RedirectResponse
