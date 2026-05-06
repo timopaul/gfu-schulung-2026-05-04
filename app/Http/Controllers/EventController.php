@@ -14,7 +14,12 @@ class EventController extends Controller
 {
     public function index(): View
     {
+        $trainer = Trainer::find(2);
+
         $events = Event::query()->with(Event::RELATION_TRAINER)->get();
+        //$events = Event::upcoming()->with(Event::RELATION_TRAINER)->get();
+        //$events = Event::fromTrainer($trainer)->with(Event::RELATION_TRAINER)->get();
+        //$events = Event::upcoming()->fromTrainer($trainer)->with(Event::RELATION_TRAINER)->get();
 
         return view('events.index', [
             'title' => 'GFU Training Schedule',
