@@ -22,6 +22,15 @@
     <div class="grid gap-6">
         @forelse($events as $event)
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+
+                <div class="flex flex-wrap gap-2">
+                    @foreach($event->tags as $tag)
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full">
+                            {{ $tag->name }}
+                        </span>
+                    @endforeach
+                </div>
+
                 <div class="flex justify-between items-start">
                     <div>
                         <h2 class="text-2xl font-bold text-slate-900">{{ $event->title }}</h2>

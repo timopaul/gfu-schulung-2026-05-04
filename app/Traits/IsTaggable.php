@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
  */
 trait IsTaggable
 {
+    const string RELATION_TAGS = 'tags';
+
     /**
      * @return MorphToMany<TModel>
      */

@@ -15,7 +15,10 @@ class EventService implements EventServiceInterface
         //return Event::query()->with(Event::RELATION_TRAINER)->get();
         //return Event::upcoming()->with(Event::RELATION_TRAINER)->get();
         $trainer = Trainer::find(2);
-        return Event::fromTrainer($trainer)->with(Event::RELATION_TRAINER)->get();
+        return Event::fromTrainer($trainer)
+            ->with(Event::RELATION_TRAINER)
+            ->with(Event::RELATION_TAGS)
+            ->get();
         //return Event::upcoming()->fromTrainer($trainer)->with(Event::RELATION_TRAINER)->get();
     }
 
