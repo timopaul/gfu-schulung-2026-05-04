@@ -78,9 +78,9 @@ class EventController extends Controller
         $redirection = redirect()->route('events.index');
 
         if ($event->delete()) {
-            $redirection->with('success', __('Event ":event" removed successfully.', ['event' => $event->title]));
+            $redirection->with('success', __('Event ":event" removed successfully.', ['event' => $event]));
         } else {
-            $redirection->with('error', __('Unable to remove event ":event".', ['event' => $event->title]));
+            $redirection->with('error', __('Unable to remove event ":event".', ['event' => $event]));
         }
 
         return $redirection;

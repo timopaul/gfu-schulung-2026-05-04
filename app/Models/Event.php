@@ -6,12 +6,15 @@ use App\Enums\EventType;
 use App\Traits\HasDuration;
 use Carbon\Carbon;
 use Database\Factories\EventFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property string $title
+ * @property string $label
  * @property EventType $type
  * @property Carbon $start_date
  * @property Carbon $end_date
@@ -45,6 +48,26 @@ class Event extends Model
         'start_date' => 'datetime',
         'end_date' => 'datetime',
     ];
+
+    public function __toString(): string
+    {
+        return $this->label;
+    }
+
+    public function title(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => ucwords($value),
+            set: fn ($value) => strtolower(trim($value)),
+        );
+    }
+
+    public function label(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => "{$this->title} | Ort: {$this->location} ({$this->getDurationInDays()} Tage)",
+        );
+    }
 
     public function getDurationInDays(): int
     {
