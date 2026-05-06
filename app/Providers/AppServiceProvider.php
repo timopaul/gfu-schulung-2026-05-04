@@ -3,10 +3,13 @@
 namespace App\Providers;
 
 use App\Interfaces\Services\EventServiceInterface;
+use App\Rules\NoWeekends;
 use App\Services\EventService;
+use Carbon\Carbon;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -32,5 +35,15 @@ class AppServiceProvider extends ServiceProvider
                 Log::channel('query')->info("Zeit: {$query->time}ms");
             });
         }
+
+        Validator::extend('no_weekends', function ($attribute, $value, $parameters, $validator) {
+            $error = null;
+
+            (new NoWeekends)->validate($attribute, $value, function ($message) use (&$error) {
+                $error = $message;
+            });
+
+            return is_null($error);
+        });
     }
 }
