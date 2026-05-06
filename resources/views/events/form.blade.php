@@ -93,6 +93,28 @@
                     </div>
                 </div>
 
+                <div class="py-2">
+                    <label class="block text-sm font-medium mb-2">Tags auswählen</label>
+                    <div class="grid grid-cols-4 gap-2">
+                        @foreach($tags as $tag)
+                            <label class="flex items-center space-x-2 cursor-pointer group">
+                                <input type="checkbox"
+                                       value="{{ $tag->id }}"
+                                       class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        name="tags[]"
+                                        {{ in_array($tag->id, old('tags', isset($event) ? $event->tags->pluck('id')->toArray() : [])) ? 'checked' : '' }}
+                                >
+                                <span class="text-sm text-gray-600 group-hover:text-gray-900 transition">
+                                    {{ $tag->name }}
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
+                    @error('tags.*')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <!-- Submit Button -->
                 <div class="flex items-center w-full pt-4">
                     @if(isset($event))

@@ -8,6 +8,7 @@ use App\Http\Requests\CreateEventRequest;
 use App\Http\Requests\EditEventRequest;
 use App\Interfaces\Services\EventServiceInterface;
 use App\Models\Event;
+use App\Models\Tag;
 use App\Models\Trainer;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -61,6 +62,7 @@ class EventController extends Controller
         return view('events.form', array_merge([
             'trainers' => Trainer::all(),
             'types' => EventType::cases(),
+            'tags' => Tag::all(),
         ], $data));
     }
 
@@ -69,6 +71,8 @@ class EventController extends Controller
         $data = $request->validated();
 
         $event->fill($data);
+
+        $event->tags()->sync($data['tags']);
 
         $redirection = redirect()->route('events.index');
 

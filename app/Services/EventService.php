@@ -37,6 +37,8 @@ class EventService implements EventServiceInterface
             throw new UnableToCreateEventException();
         }
 
+        $event->tags()->attach($data['tags']);
+
         // @TODO send mail to Trainer
 
         // @TODO Book a room
