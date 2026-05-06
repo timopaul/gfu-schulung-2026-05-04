@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 /**
+ * @property string $name
+ * @property string $email
+ *
  * @property-read Collection<int, Event> $events
  */
 class Trainer extends Model

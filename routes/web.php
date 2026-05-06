@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\Api;
 use App\Livewire\EventManager;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,9 @@ Route::post('/events/{event}', [EventController::class, 'save'])
     ->name('events.save');
 Route::get('/events/remove/{event}', [EventController::class, 'remove'])
     ->name('events.remove');
+
+Route::prefix('api')->group(function () {
+    Route::get('/events', [Api\EventController::class, 'index']);
+    Route::get('/trainers', [Api\TrainerController::class, 'index']);
+    Route::get('/trainers/{trainer}', [api\TrainerController::class, 'get']);
+});
