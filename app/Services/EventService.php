@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Data\EventData;
 use App\Exceptions\UnableToCreateEventException;
 use App\Interfaces\Services\EventServiceInterface;
 use App\Models\Event;
@@ -28,16 +29,18 @@ class EventService implements EventServiceInterface
     /**
      * @throws UnableToCreateEventException
      */
-    public function createEvent(array $data): Event
+    public function createEvent(EventData $data): Event
     {
         $event = new Event();
-        $event->fill($data);
+        $event->fill($data->toArray());
 
         if ( ! $event->save()) {
             throw new UnableToCreateEventException();
         }
 
-        $event->tags()->attach($data['tags']);
+        if ($data->hasTags()) {
+            $event->tags()->attach($data->tags);
+        }
 
         // @TODO send mail to Trainer
 

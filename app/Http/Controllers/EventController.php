@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Data\EventData;
 use App\Enums\EventType;
 use App\Exceptions\UnableToCreateEventException;
 use App\Http\Requests\CreateEventRequest;
@@ -34,10 +35,8 @@ class EventController extends Controller
         return $this->form();
     }
 
-    public function store(CreateEventRequest $request)
+    public function store(EventData $data)
     {
-        $data = $request->validated();
-
         $redirection = redirect()->route('events.index');
 
         try {
