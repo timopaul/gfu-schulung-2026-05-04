@@ -66,20 +66,20 @@
             padding: 20px;
             margin: 20px 0;
             page-break-inside: avoid;
+            text-align: center;
         }
 
         .chart-title {
-            text-align: center;
             font-size: 16px;
             font-weight: bold;
             color: #333;
             margin-bottom: 15px;
         }
 
-        .bar-chart-svg {
-            width: 100%;
+        .chart-image {
+            max-width: 100%;
             height: auto;
-            display: block;
+            margin: 20px 0;
         }
 
         .data-table {
@@ -141,7 +141,7 @@
 
         <div class="chart-container">
             <div class="chart-title">Events pro Monat 2026</div>
-            {!! $chartSvg !!}
+            <img src="{{ $chartImage }}" alt="Event Statistics Chart" class="chart-image" />
         </div>
 
         <div class="info-section">
@@ -172,8 +172,7 @@
             <h3>📝 Erklärung</h3>
             <p>
                 Das obenstehende Balkendiagramm zeigt die Anzahl der Events pro Monat für das Jahr 2026.
-                Jeder farbige Balken repräsentiert einen Monat, und die Höhe des Balkens gibt die Anzahl der Events an.
-                Die exakten Werte sind sowohl über den Balken als auch in der Tabelle unten ersichtlich.
+                Das Chart wird direkt aus der Web-Anwendung mit ApexCharts gerendert und als Screenshot in diesem PDF eingebettet.
             </p>
         </div>
     </div>

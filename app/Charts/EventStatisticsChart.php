@@ -16,6 +16,25 @@ class EventStatisticsChart
 
     public function build(): LarapexChart
     {
+        $data = $this->extractData();
+
+        return $this->chart
+            ->barChart()
+            ->setTitle('Event Statistiken 2026')
+            ->setSubtitle('Events pro Monat')
+            ->addData('Events', $data['values'])
+            ->setXAxis($data['months'])
+            ->setColors($data['colors'])
+            ->setHeight(400);
+    }
+
+    public function getChartData(): array
+    {
+        return $this->extractData();
+    }
+
+    protected function extractData(): array
+    {
         $eventsByMonth = Event::selectRaw('MONTH(start_date) as month, COUNT(*) as count')
             ->whereYear('created_at', now()->year)
             ->groupByRaw('MONTH(start_date)')
@@ -28,13 +47,18 @@ class EventStatisticsChart
             $data[$month - 1] = $count;
         }
 
-        return $this->chart
-            ->barChart()
-            ->setTitle('Event Statistiken 2026')
-            ->setSubtitle('Events pro Monat')
-            ->addData('Events', array_values($data))
-            ->setXAxis($months)
-            ->setHeight(400);
+        $colors = [
+            '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8',
+            '#F7DC6F', '#BB8FCE', '#85C1E2', '#F8B88B', '#A9DFBF',
+            '#F1948A', '#D7BDE2'
+        ];
+
+        return [
+            'months' => $months,
+            'values' => array_values($data),
+            'data' => $data,
+            'colors' => $colors,
+        ];
     }
 }
 
