@@ -142,8 +142,8 @@
 
             <div class="actions">
                 <button class="btn btn-primary" onclick="document.location.href='/charts/event-statistics';">🔄 Aktualisieren</button>
-                <a href="/charts/event-statistics/pdf" class="btn btn-primary">📥 Als PDF exportieren</a>
-                <a href="/events" class="btn btn-secondary">← Zurück zu Events</a>
+                <a href="{{ route('charts.eventStatisticsPdf') }}" class="btn btn-primary">📥 Als PDF exportieren</a>
+                <a href="{{ route('events.index') }}" class="btn btn-secondary">← Zurück zu Events</a>
             </div>
         </div>
 
