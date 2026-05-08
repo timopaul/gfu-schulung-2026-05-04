@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use App\Actions\UpsertEventAction;
 use App\Data\EventData;
 use App\Enums\EventType;
-use App\Exceptions\UnableToCreateEventException;
 use App\Exceptions\UnableToUpsertEventException;
-use App\Http\Requests\CreateEventRequest;
-use App\Http\Requests\EditEventRequest;
 use App\Interfaces\Services\EventServiceInterface;
 use App\Models\Event;
 use App\Models\Tag;
 use App\Models\Trainer;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use phpDocumentor\Reflection\Exception;
 
 class EventController extends Controller
 {
@@ -50,8 +49,15 @@ class EventController extends Controller
         return $redirection->with('success', __('Event ":event" created successfully.', ['event' => $event]));
     }
 
+    /**
+     * @throws Exception
+     */
     public function edit(Event $event): View
     {
+        if ( ! Gate::authorize('update', $event)) {
+            throw new Exception(__('Unauthorized action.'));
+        }
+
         return $this->form([
             'event' => $event,
         ]);
