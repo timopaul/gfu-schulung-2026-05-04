@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $tags = Tag::factory(10)->create();
+        $tags = Tag::all()->isEmpty() ? Tag::factory(100)->create() : Tag::all();
 
-        $trainers = Trainer::factory(5)->create();
+        $trainers = Trainer::all()->isEmpty() ? Trainer::factory(20)->create() : Trainer::all();
 
         $trainers->each(function (Trainer $trainer) use ($tags) {
             $trainer->tags()->sync(
@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             );
         });
 
-        $events = Event::factory(20)->create([
+        $events = Event::factory(500)->create([
             'trainer_id' => fn() => $trainers->random()->getKey(),
         ]);
         $events->each(function (Event $event) use ($tags) {

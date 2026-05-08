@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\Api;
 use App\Livewire\EventManager;
 use Illuminate\Support\Facades\Route;
@@ -9,7 +10,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/livewire', EventManager::class);
+#Route::get('/livewire', EventManager::class);
 
 Route::get('/events', [EventController::class, 'index'])
     ->name('events.index');
@@ -29,3 +30,7 @@ Route::prefix('api')->group(function () {
     Route::get('/trainers', [Api\TrainerController::class, 'index']);
     Route::get('/trainers/{trainer}', [api\TrainerController::class, 'get']);
 });
+
+// Chart Routes
+Route::get('/charts/event-statistics', [ChartController::class, 'eventStatistics'])->name('charts.eventStatistics');
+Route::get('/charts/event-statistics/pdf', [ChartController::class, 'eventStatisticsPdf'])->name('charts.eventStatisticsPdf');

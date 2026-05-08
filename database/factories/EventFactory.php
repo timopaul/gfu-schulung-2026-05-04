@@ -18,9 +18,31 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
-        $days = $this->faker->numberBetween(0, 5);
-        $startDate = $this->faker->dateTimeBetween('-1 month', '+1 month');
-        $endDate = $this->faker->dateTimeInInterval($startDate, "+{$days} day");
+        $currentYear = Carbon::now()->year;
+        $yearStart = Carbon::create($currentYear, 1, 1);
+        $yearEnd = Carbon::create($currentYear, 12, 31);
+
+        // Zufälliges Startdatum im aktuellen Jahr
+        $startDate = $this->faker->dateTimeBetween(
+            $yearStart->toDateTimeString(),
+            $yearEnd->toDateTimeString()
+        );
+        $startDate = Carbon::instance($startDate);
+
+        // Wenn Wochenende, auf Montag verschieben
+        while ($startDate->isWeekend()) {
+            $startDate->addDay();
+        }
+
+        // Enddatum in der gleichen Woche (maximal 5 Tage später)
+        $maxDaysInWeek = $startDate->diffInDays($startDate->copy()->endOfWeek());
+        $daysToAdd = $this->faker->numberBetween(0, min(5, $maxDaysInWeek));
+        $endDate = $startDate->copy()->addDays($daysToAdd);
+
+        // Wenn Enddatum Wochenende ist, auf Freitag zurück
+        while ($endDate->isWeekend() || $endDate->greaterThan($startDate->copy()->endOfWeek())) {
+            $endDate->subDay();
+        }
 
         return [
             'title' => $this->faker->sentence(4),
