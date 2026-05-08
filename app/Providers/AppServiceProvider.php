@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Interfaces\Services\EventServiceInterface;
+use App\Models\User;
 use App\Rules\NoWeekends;
 use App\Services\EventService;
 use Carbon\Carbon;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
@@ -44,6 +46,11 @@ class AppServiceProvider extends ServiceProvider
             });
 
             return is_null($error);
+        });
+
+        // Gates
+        Gate::define('access-charts', function (User|null $user) {
+            return null === $user;
         });
     }
 }

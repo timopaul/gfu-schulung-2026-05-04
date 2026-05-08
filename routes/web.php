@@ -32,6 +32,16 @@ Route::prefix('api')->group(function () {
 });
 
 // Chart Routes
-Route::get('/charts/event-statistics', [ChartController::class, 'eventStatistics'])->name('charts.eventStatistics');
-Route::get('/charts/event-statistics/pdf', [ChartController::class, 'eventStatisticsPdf'])->name('charts.eventStatisticsPdf');
-Route::get('/charts/event-statistics/html', [ChartController::class, 'eventStatisticsHtml'])->name('charts.eventStatisticsHtml');
+Route::prefix('charts')
+    ->name('charts.')
+    ->middleware(['can:access-charts'])
+    ->group(function () {
+        Route::get('/event-statistics', [ChartController::class, 'eventStatistics'])
+            ->name('eventStatistics');
+
+        Route::get('/event-statistics/pdf', [ChartController::class, 'eventStatisticsPdf'])
+            ->name('eventStatisticsPdf');
+
+        Route::get('/event-statistics/html', [ChartController::class, 'eventStatisticsHtml'])
+            ->name('eventStatisticsHtml');
+    });
