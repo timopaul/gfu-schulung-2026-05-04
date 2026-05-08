@@ -63,6 +63,9 @@ class EventController extends Controller
         ]);
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     */
     private function form(array $data = []): View
     {
         return view('events.form', array_merge([
